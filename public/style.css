@@ -1,0 +1,114 @@
+:root {
+    color-scheme: light;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #1f2937;
+}
+
+.desktop-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.topbar h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.score {
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+}
+
+.debug-line {
+    margin-top: 0.4rem;
+    font-size: 0.85rem;
+    color: #475569;
+    text-align: right;
+}
+
+.telemetry {
+    margin-top: 0.35rem;
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    font-size: 0.85rem;
+    color: #334155;
+}
+
+.telemetry strong {
+    font-weight: 700;
+}
+
+.game-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 1rem;
+    align-items: start;
+}
+
+#gameCanvas {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 2px solid #1f2937;
+    border-radius: 10px;
+    background: #dbeafe;
+}
+
+.qr-panel {
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.qr-panel h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+}
+
+.qr-panel p {
+    margin: 0 0 0.75rem;
+    font-size: 0.95rem;
+}
+
+.qr-placeholder {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border: 2px dashed #9ca3af;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #6b7280;
+    background: #f9fafb;
+    padding: 0.5rem;
+}
+
+@media (max-width: 900px) {
+    .game-wrapper {
+        grid-template-columns: 1fr;
+    }
+}

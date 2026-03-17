@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Archers</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <main class="desktop-layout">
+        <header class="topbar">
+            <h1>Archers</h1>
+            <div>
+                <div id="score" class="score">Score: 0</div>
+                <div id="debugLine" class="debug-line">Debug: waiting for controller...</div>
+                <div class="telemetry">
+                    <span>Angle: <strong id="angleDebug">-</strong></span>
+                    <span>Power: <strong id="powerDebug">-</strong></span>
+                    <span>Shoot: <strong id="shootDebug">-</strong></span>
+                </div>
+            </div>
+        </header>
+
+        <section class="game-wrapper">
+            <canvas id="gameCanvas" width="960" height="540" aria-label="Boogschiet spelcanvas"></canvas>
+
+            <aside class="qr-panel">
+                <h2>Connect to smartphone</h2>
+                <p>Scan this QR-code to connect!</p>
+                <div id="qrPlaceholder" class="qr-placeholder">QR-code placeholder</div>
+            </aside>
+        </section>
+    </main>
+
+    <script src="https://unpkg.com/simple-peer@9.11.1/simplepeer.min.js"></script>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="desktop.js"></script>
+</body>
+
+</html>
