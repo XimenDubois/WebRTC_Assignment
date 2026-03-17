@@ -73,8 +73,10 @@ function startPeer(initiator) {
             }
 
             if (payload.type === "shoot") {
-                const shootPower = payload.value?.power;
+                const shootPower = clamp(payload.value?.power ?? currentPower, 0, 100);
+                fireArrow(shootPower);
                 currentPower = 0;
+                playBowSound();
                 setTelemetryValue(powerDebugElement, "0%");
                 setTelemetryValue(shootDebugElement, `${shootPower ?? "-"}%`);
                 setDebug(`shoot (${shootPower ?? "-"}%)`);
@@ -142,6 +144,12 @@ const target = {
 const targetImage = new Image();
 targetImage.src = "assets/Target.png";
 
+const arrowImage = new Image();
+arrowImage.src = "assets/Arrow.png";
+
+const bowShootAudio = new Audio("assets/BowSound.mov");
+bowShootAudio.preload = "auto";
+
 const bowPowerImages = {
     0: new Image(),
     25: new Image(),
@@ -154,8 +162,56 @@ bowPowerImages[25].src = "assets/Bow25.png";
 bowPowerImages[50].src = "assets/Bow50.png";
 bowPowerImages[100].src = "assets/Bow100.png";
 
+const arrowProjectile = {
+    active: false,
+    x: 0,
+    y: 0,
+    vx: 0,
+    vy: 0,
+    angle: 0
+};
+
 function clamp(value, min, max) {
     return Math.max(min, Math.min(max, value));
+}
+
+function playBowSound() {
+    bowShootAudio.currentTime = 0;
+    bowShootAudio.play().catch(() => {
+        setDebug("shoot sound blocked");
+    });
+}
+
+function fireArrow(power) {
+    const clampedPower = clamp(power, 0, 100);
+    const launchSpeed = 6 + (clampedPower / 100) * 18;
+    const startOffset = 48;
+
+    arrowProjectile.active = true;
+    arrowProjectile.angle = aimAngle;
+    arrowProjectile.x = bow.x + Math.cos(aimAngle) * startOffset;
+    arrowProjectile.y = bow.y + Math.sin(aimAngle) * startOffset;
+    arrowProjectile.vx = Math.cos(aimAngle) * launchSpeed;
+    arrowProjectile.vy = Math.sin(aimAngle) * launchSpeed;
+}
+
+function updateArrowProjectile() {
+    if (!arrowProjectile.active) {
+        return;
+    }
+
+    arrowProjectile.x += arrowProjectile.vx;
+    arrowProjectile.y += arrowProjectile.vy;
+
+    const outOfBounds =
+        arrowProjectile.x < -100 ||
+        arrowProjectile.x > canvas.width + 100 ||
+        arrowProjectile.y < -100 ||
+        arrowProjectile.y > canvas.height + 100;
+
+    if (outOfBounds) {
+        arrowProjectile.active = false;
+    }
 }
 
 function getBowImageForPower(power) {
@@ -228,6 +284,31 @@ function drawTarget() {
     ctx.restore();
 }
 
+function drawArrowProjectile() {
+    if (!arrowProjectile.active) {
+        return;
+    }
+
+    ctx.save();
+    ctx.translate(arrowProjectile.x, arrowProjectile.y);
+    ctx.rotate(arrowProjectile.angle);
+
+    if (arrowImage.complete && arrowImage.naturalWidth > 0) {
+        const drawWidth = 54;
+        const drawHeight = (arrowImage.naturalHeight / arrowImage.naturalWidth) * drawWidth;
+        ctx.drawImage(arrowImage, -drawWidth * 0.2, -drawHeight / 2, drawWidth, drawHeight);
+    } else {
+        ctx.strokeStyle = "#111827";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(-18, 0);
+        ctx.lineTo(24, 0);
+        ctx.stroke();
+    }
+
+    ctx.restore();
+}
+
 function drawHUD() {
     ctx.fillStyle = "#111827";
     ctx.font = "20px Arial";
@@ -269,8 +350,10 @@ async function setupQRCode() {
 }
 
 function render() {
+    updateArrowProjectile();
     drawBackground();
     drawBow();
+    drawArrowProjectile();
     drawTarget();
     drawHUD();
     requestAnimationFrame(render);
