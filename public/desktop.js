@@ -14,6 +14,7 @@ let partnerId = null;
 
 let score = 0;
 let aimAngle = 0;
+let currentPower = 0;
 
 function setDebug(text) {
     if (!debugLineElement) {
@@ -58,12 +59,14 @@ function startPeer(initiator) {
             console.log("Controller event:", payload.type, payload.value);
 
             if (payload.type === "angle") {
+                aimAngle = (clamp(payload.value, -45, 45) * Math.PI) / 180;
                 setTelemetryValue(angleDebugElement, `${Math.round(payload.value)}°`);
                 setDebug(`angle ${payload.value}°`);
                 return;
             }
 
             if (payload.type === "power") {
+                currentPower = clamp(payload.value, 0, 100);
                 setTelemetryValue(powerDebugElement, `${Math.round(payload.value)}%`);
                 setDebug(`power ${Math.round(payload.value)}%`);
                 return;
@@ -71,6 +74,8 @@ function startPeer(initiator) {
 
             if (payload.type === "shoot") {
                 const shootPower = payload.value?.power;
+                currentPower = 0;
+                setTelemetryValue(powerDebugElement, "0%");
                 setTelemetryValue(shootDebugElement, `${shootPower ?? "-"}%`);
                 setDebug(`shoot (${shootPower ?? "-"}%)`);
                 return;
@@ -89,6 +94,7 @@ function startPeer(initiator) {
         setTelemetryValue(angleDebugElement, "-");
         setTelemetryValue(powerDebugElement, "-");
         setTelemetryValue(shootDebugElement, "-");
+        aimAngle = 0;
         peer = null;
     });
 
@@ -136,8 +142,37 @@ const target = {
 const targetImage = new Image();
 targetImage.src = "assets/Target.png";
 
-const bowImage = new Image();
-bowImage.src = "assets/Bow0.png";
+const bowPowerImages = {
+    0: new Image(),
+    25: new Image(),
+    50: new Image(),
+    100: new Image()
+};
+
+bowPowerImages[0].src = "assets/Bow0.png";
+bowPowerImages[25].src = "assets/Bow25.png";
+bowPowerImages[50].src = "assets/Bow50.png";
+bowPowerImages[100].src = "assets/Bow100.png";
+
+function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+}
+
+function getBowImageForPower(power) {
+    if (power >= 75) {
+        return bowPowerImages[100];
+    }
+
+    if (power >= 50) {
+        return bowPowerImages[50];
+    }
+
+    if (power >= 25) {
+        return bowPowerImages[25];
+    }
+
+    return bowPowerImages[0];
+}
 
 function updateScore(value) {
     score = value;
@@ -155,6 +190,9 @@ function drawBackground() {
 function drawBow() {
     ctx.save();
     ctx.translate(bow.x, bow.y);
+    ctx.rotate(aimAngle);
+
+    const bowImage = getBowImageForPower(currentPower);
 
     if (bowImage.complete && bowImage.naturalWidth > 0) {
         const maxBowSize = bow.radius * 2.4;
