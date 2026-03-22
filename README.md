@@ -1,59 +1,91 @@
-# Week 1 Concept
- een 1-op-1 interactieve webgame waarbij een smartphone wordt gebruikt als controller voor een desktop boogschietspel via een WebRTC Data Channel.
+# 🎯 Projectoverzicht  
+Dit project is een **1-op-1 interactieve webgame** waarbij een smartphone gebruikt wordt als controller voor een desktop boogschietspel via een **WebRTC Data Channel**.
 
-De desktop toont het spel (boog, pijlen en targets).
-De smartphone bestuurt:
+## 🖥️ Desktop (game)
+De desktop toont het spel, inclusief:
+- Boog  
+- Pijlen  
+- Targets  
 
-Richting via gyroscoop (tilt links/rechts)
+## 📱 Smartphone (controller)
+De smartphone wordt gebruikt om het spel te besturen:
+- **Richting** → via gyroscoop (links/rechts kantelen)  
+- **Kracht** → via swipe-beweging van rechts naar links
+- **Schieten** → via knop
 
-Kracht via swipe-beweging (nog te beslissen)
+## 🔗 Connectie
+- Verbinding via **QR-code**
+- **WebSockets** → enkel voor signalling  
+- **WebRTC Data Channels** → voor realtime communicatie  
 
-Schieten via een knop of release (nog te beslissen)
+## 🎮 Doel van het spel
+Raak zoveel mogelijk targets binnen zonder 3x er naast te schieten
 
-De connectie tussen beide toestellen gebeurt via een QR-code.
+---
 
-WebSockets worden enkel gebruikt voor signalling, terwijl alle realtime besturing via WebRTC Data Channels verloopt.
+# 📅 Week 1 — Concept & Setup
 
-Het doel van het spel is om zoveel mogelijk targets te raken binnen een bepaalde tijd.
+## Wat is gedaan:
+- Concept van de game uitgewerkt  
+- Interactie tussen smartphone en desktop bepaald  
+- Mappenstructuur opgezet  
 
-Ik heb ook al de mappen structuur klaar gelegd zodat ik volgende week kan beginnen met de connectie tussen GSM en Desktop
+## Resultaat:
+- Duidelijke projectbasis  
+- Klaar om te starten met de connectie tussen smartphone en desktop  
 
-# Week 2 Communicatie
-In week 2 heb ik de eerste connectie opgezet tussen de smartphone en de desktop.
+## 🎯 Volgende week doel:
+- Basis connectie opzetten tussen smartphone en desktop  
+- Node.js server configureren  
+- Eerste WebRTC signalling implementeren  
 
-Ik heb:
+---
 
-Een lokale Node.js server opgezet
+# 📅 Week 2 — Communicatie
 
-WebSockets gebruikt voor signalling
+## Wat is gedaan:
+- Lokale **Node.js server** opgezet  
+- **WebSockets** geïmplementeerd voor signalling  
+- Eerste **WebRTC connectie** opgezet  
+- Minimale test gebouwd voor datatransfer  
 
-Een eenvoudige WebRTC connectie gemaakt
+## Resultaat:
+- Werkende 1-op-1 connectie  
+- Eerste MVP waarin communicatie mogelijk is  
 
-Een minimale test gebouwd waarbij data van de smartphone naar de desktop gestuurd werd
+## 🎯 Volgende week doel:
+- Datastructuur definiëren (angle, power, shoot)  
+- Input van smartphone koppelen aan events  
+- Betrouwbare data-overdracht testen  
 
-Resultaat:
+---
 
-Werkende 1-op-1 connectie
+# 📅 Week 3 — Data verwerking
 
-Eerste MVP waarbij communicatie mogelijk is
-# Week 3 Data verwerking
-In deze week heb ik de communicatie verder uitgewerkt zodat er effectief bruikbare data verstuurd en ontvangen wordt.
+## Wat is gedaan:
+- Datastructuur opgezet (`angle`, `power`, `shoot`)  
+- Smartphone input gekoppeld aan events  
+- Data correct ontvangen en verwerkt op de desktop  
+- Tests uitgevoerd met realtime updates  
 
-Ik heb:
+## Resultaat:
+- Stabiele data-overdracht via WebRTC Data Channels  
+- Basisinteractie tussen smartphone en desktop  
 
-Data structuur opgezet (angle, power, shoot)
+## 🎯 Volgende week doel:
+- Game logic implementeren (boog richten en schieten)  
+- Visuele feedback toevoegen (pijl, targets)  
+- Eerste speelbare prototype maken  
 
-Input van de smartphone gekoppeld aan events
+---
 
-Data correct ontvangen en verwerkt op de desktop
+## 🤖 Gebruik van AI
 
-Tests gedaan met real-time updates
+Ik heb AI vooral gebruikt om mijn ontwikkelingsproces te versnellen. Daarbij heb ik bewust gewerkt met kleine, gerichte prompts om te vermijden dat ik overspoeld werd met grote hoeveelheden gegenereerde code.
 
-Resultaat:
+AI werd voornamelijk ingezet voor:
+- Complexere berekeningen, zoals het bepalen van hitboxen van de targets en arrows
+- Ondersteuning bij technische implementaties  
+- Het versnellen van het CSS-proces, zodat ik hier minder tijd aan hoefde te besteden  
 
-Stabiele data-overdracht via WebRTC data channel
-
-Basis interactie tussen smartphone en desktop
-
-# Gebruik van AI 
-Ik gebruikte AI vooral om de opdracht op te delen in kleine technische stappen, zoals het opzetten van de Node.js server, WebRTC signalling, mobiele inputverwerking en canvas game logica. De gegenereerde code werd niet blind overgenomen, maar getest, vereenvoudigd en aangepast aan mijn eigen projectstructuur.
+De gegenereerde code werd steeds in kleine hoeveelheden gegenereerd, getest en aangepast zodat ik niet zou verdrinken in de grote hoeveelheden code dat AI kan genereren bij te grote prompts.

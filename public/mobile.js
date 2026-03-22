@@ -16,23 +16,23 @@ const swipeZone = document.getElementById("swipeZone");
 const shootButton = document.getElementById("shootButton");
 const enableMotionButton = document.getElementById("enableMotionButton");
 
-function updateStatus(text) {
+const updateStatus = (text) => {
     statusElement.textContent = text;
-}
+};
 
-function clamp(value, min, max) {
+const clamp = (value, min, max) => {
     return Math.max(min, Math.min(max, value));
-}
+};
 
-function sendControl(payload) {
+const sendControl = (payload) => {
     if (!peer || !peer.connected) {
         return;
     }
 
     peer.send(JSON.stringify(payload));
-}
+};
 
-function sendAngle(angle) {
+const sendAngle = (angle) => {
     const now = Date.now();
     if (now - lastAngleSend < 50) {
         return;
@@ -40,9 +40,9 @@ function sendAngle(angle) {
 
     lastAngleSend = now;
     sendControl({ type: "angle", value: angle });
-}
+};
 
-function sendPower(power) {
+const sendPower = (power) => {
     const now = Date.now();
     if (now - lastPowerSend < 50) {
         return;
@@ -50,16 +50,16 @@ function sendPower(power) {
 
     lastPowerSend = now;
     sendControl({ type: "power", value: power });
-}
+};
 
-function setPower(nextPower) {
+const setPower = (nextPower) => {
     currentPower = clamp(nextPower, 0, 100);
     powerValueElement.textContent = `${Math.round(currentPower)}%`;
     powerFillElement.style.width = `${currentPower}%`;
     sendPower(currentPower);
-}
+};
 
-function startPeer(initiator) {
+const startPeer = (initiator) => {
     peer = new SimplePeer({ initiator, trickle: false });
 
     peer.on("signal", (data) => {
@@ -82,7 +82,7 @@ function startPeer(initiator) {
     peer.on("error", () => {
         updateStatus("Verbinding: fout");
     });
-}
+};
 
 socket.on("connect", () => {
     updateStatus("Verbinding: socket verbonden, wachten op desktop...");
@@ -108,16 +108,16 @@ socket.on("signal", (fromId, signal) => {
     peer.signal(signal);
 });
 
-function handleOrientation(event) {
+const handleOrientation = (event) => {
     const gamma = typeof event.gamma === "number" ? event.gamma : 0;
     const angle = clamp(gamma, -45, 45);
 
     currentAngle = Math.round(angle);
     angleValueElement.textContent = `${currentAngle}°`;
     sendAngle(currentAngle);
-}
+};
 
-async function enableTilt() {
+const enableTilt = async () => {
     if (
         typeof DeviceOrientationEvent !== "undefined" &&
         typeof DeviceOrientationEvent.requestPermission === "function"
@@ -132,7 +132,7 @@ async function enableTilt() {
     window.addEventListener("deviceorientation", handleOrientation);
     enableMotionButton.disabled = true;
     enableMotionButton.textContent = "Tilt actief";
-}
+};
 
 enableMotionButton.addEventListener("click", () => {
     enableTilt().catch(() => {

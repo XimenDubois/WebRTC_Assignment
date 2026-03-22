@@ -12,19 +12,22 @@
     <main class="desktop-layout">
         <header class="topbar">
             <h1>Archers</h1>
-            <div>
+            <div class="hud-panel">
                 <div id="score" class="score">Score: 0</div>
-                <div id="debugLine" class="debug-line">Debug: waiting for controller...</div>
-                <div class="telemetry">
-                    <span>Angle: <strong id="angleDebug">-</strong></span>
-                    <span>Power: <strong id="powerDebug">-</strong></span>
-                    <span>Shoot: <strong id="shootDebug">-</strong></span>
-                </div>
+                <div id="lives" class="lives" aria-label="Lives"></div>
+                <button id="soundToggle" class="sound-toggle muted" type="button">🔇 Sound: OFF</button>
             </div>
         </header>
 
         <section class="game-wrapper">
-            <canvas id="gameCanvas" width="960" height="540" aria-label="Boogschiet spelcanvas"></canvas>
+            <div class="canvas-stage">
+                <canvas id="gameCanvas" width="960" height="540" aria-label="Boogschiet spelcanvas"></canvas>
+                <div id="gameOverOverlay" class="game-over-overlay" aria-live="polite" hidden>
+                    <h2>Game Over</h2>
+                    <p id="endScore">End score: 0</p>
+                    <button id="playAgainButton" class="play-again-button" type="button">Play again</button>
+                </div>
+            </div>
 
             <aside class="qr-panel">
                 <h2>Connect to smartphone</h2>

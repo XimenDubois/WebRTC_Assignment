@@ -26,7 +26,7 @@ socket.on("signal", (fromId, signal) => {
     peer.signal(signal);
 });
 
-function startPeer(initiator) {
+const startPeer = (initiator) => {
     console.log("🎬 Start peer, initiator =", initiator);
     peer = new SimplePeer({ initiator, trickle: false });
 
@@ -86,7 +86,7 @@ function startPeer(initiator) {
 
     peer.on("close", () => console.log("DataChannel gesloten"));
     peer.on("error", (err) => console.error("Fout:", err));
-}
+};
 const GetQRCode = () => {
     const introContainer = document.querySelector(".introContainer");
     const qrScreen = document.querySelector(".qrScreen");

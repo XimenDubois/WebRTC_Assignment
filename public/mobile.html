@@ -5,122 +5,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Archers Controller</title>
+    <link rel="stylesheet" href="style.css" />
     <script src="https://unpkg.com/simple-peer@9.11.1/simplepeer.min.js"></script>
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            padding: 1rem;
-            font-family: Arial, sans-serif;
-            background: #0f172a;
-            color: #e2e8f0;
-        }
-
-        .wrapper {
-            max-width: 420px;
-            margin: 0 auto;
-            display: grid;
-            gap: 0.9rem;
-        }
-
-        .card {
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            padding: 0.9rem;
-        }
-
-        h1 {
-            margin: 0;
-            font-size: 1.35rem;
-        }
-
-        .status {
-            font-size: 0.95rem;
-            color: #93c5fd;
-        }
-
-        .value-row {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 0.6rem;
-            font-size: 1rem;
-        }
-
-        .swipe-zone {
-            min-height: 160px;
-            border: 2px dashed #64748b;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 1rem;
-            user-select: none;
-            touch-action: none;
-        }
-
-        .power-track {
-            margin-top: 0.75rem;
-            width: 100%;
-            height: 12px;
-            background: #334155;
-            border-radius: 999px;
-            overflow: hidden;
-        }
-
-        .power-fill {
-            width: 0%;
-            height: 100%;
-            background: #38bdf8;
-        }
-
-        button {
-            width: 100%;
-            border: 0;
-            border-radius: 10px;
-            padding: 0.9rem;
-            font-size: 1rem;
-            font-weight: 700;
-            color: #0f172a;
-            background: #fbbf24;
-        }
-    </style>
 </head>
 
-<body>
-    <main class="wrapper">
-        <section class="card">
-            <h1>Phone Controller</h1>
-            <p id="status" class="status">Verbinding: wachten...</p>
+<body class="mobile-page">
+    <main class="mobile-layout">
+        <section class="mobile-card">
+            <h1 class="mobile-title">Phone Controller</h1>
+            <p id="status" class="mobile-status">Verbinding: wachten...</p>
             <button id="enableMotionButton" type="button">Enable tilt</button>
         </section>
 
-        <section class="card">
+        <section class="mobile-card">
             <strong>Tilt = Angle</strong>
-            <div class="value-row">
+            <div class="mobile-value-row">
                 <span>Angle</span>
                 <span id="angleValue">0°</span>
             </div>
         </section>
 
-        <section class="card">
+        <section class="mobile-card">
             <strong>Swipe = Power</strong>
-            <div id="swipeZone" class="swipe-zone">Swipe van rechts naar links om power te zetten</div>
-            <div class="power-track">
-                <div id="powerFill" class="power-fill"></div>
+            <div id="swipeZone" class="mobile-swipe-zone">Swipe van rechts naar links om power te zetten</div>
+            <div class="mobile-power-track">
+                <div id="powerFill" class="mobile-power-fill"></div>
             </div>
-            <div class="value-row">
+            <div class="mobile-value-row">
                 <span>Power</span>
                 <span id="powerValue">0%</span>
             </div>
         </section>
 
-        <section class="card">
+        <section class="mobile-card">
             <button id="shootButton" type="button">Shoot</button>
         </section>
     </main>
